@@ -266,7 +266,7 @@ void cell::value(const char *c)
     value(std::string(c));
 }
 
-void cell::value(const cell c)
+void cell::value(const cell& c)
 {
     d_->type_ = c.d_->type_;
     d_->value_numeric_ = c.d_->value_numeric_;
@@ -365,7 +365,7 @@ cell &cell::operator=(const cell &rhs) = default;
 
 hyperlink cell::hyperlink() const
 {
-    return xlnt::hyperlink(&d_->hyperlink_.get());
+    return xlnt::hyperlink(d_->hyperlink_.get());
 }
 
 void cell::hyperlink(const std::string &url, const std::string &display)
@@ -378,7 +378,7 @@ void cell::hyperlink(const std::string &url, const std::string &display)
     auto ws = worksheet();
     auto &manifest = ws.workbook().manifest();
 
-    d_->hyperlink_ = detail::hyperlink_impl();
+    d_->hyperlink_ = std::make_shared<detail::hyperlink_impl>();
 
     // check for existing relationships
     auto relationships = manifest.relationships(ws.path(), relationship_type::hyperlink);
@@ -386,7 +386,7 @@ void cell::hyperlink(const std::string &url, const std::string &display)
         [&url](xlnt::relationship rel) { return rel.target().path().string() == url; });
     if (relation != relationships.end())
     {
-        d_->hyperlink_.get().relationship = *relation;
+        d_->hyperlink_->relationship = *relation;
     }
     else
     { // register a new relationship
@@ -396,16 +396,16 @@ void cell::hyperlink(const std::string &url, const std::string &display)
             uri(url),
             target_mode::external);
         // TODO: make manifest::register_relationship return the created relationship instead of rel id
-        d_->hyperlink_.get().relationship = manifest.relationship(ws.path(), rel_id);
+        d_->hyperlink_->relationship = manifest.relationship(ws.path(), rel_id);
     }
     // if a value is already present, the display string is ignored
     if (has_value())
     {
-        d_->hyperlink_.get().display.set(to_string());
+        d_->hyperlink_->display.emplace(to_string());
     }
     else
     {
-        d_->hyperlink_.get().display.set(display.empty() ? url : display);
+        d_->hyperlink_->display.emplace(display.empty() ? url : display);
         value(hyperlink().display());
     }
 }
@@ -415,17 +415,17 @@ void cell::hyperlink(xlnt::cell target, const std::string &display)
     // TODO: should this computed value be a method on a cell?
     const auto cell_address = target.worksheet().title() + "!" + target.reference().to_string();
 
-    d_->hyperlink_ = detail::hyperlink_impl();
-    d_->hyperlink_.get().relationship = xlnt::relationship("", relationship_type::hyperlink,
+    d_->hyperlink_ = std::make_shared<detail::hyperlink_impl>();
+    d_->hyperlink_->relationship = xlnt::relationship("", relationship_type::hyperlink,
         uri(""), uri(cell_address), target_mode::internal);
     // if a value is already present, the display string is ignored
     if (has_value())
     {
-        d_->hyperlink_.get().display.set(to_string());
+        d_->hyperlink_->display.emplace(to_string());
     }
     else
     {
-        d_->hyperlink_.get().display.set(display.empty() ? cell_address : display);
+        d_->hyperlink_->display.emplace(display.empty() ? cell_address : display);
         value(hyperlink().display());
     }
 }
@@ -435,18 +435,18 @@ void cell::hyperlink(xlnt::range target, const std::string &display)
     // TODO: should this computed value be a method on a cell?
     const auto range_address = target.target_worksheet().title() + "!" + target.reference().to_string();
 
-    d_->hyperlink_ = detail::hyperlink_impl();
-    d_->hyperlink_.get().relationship = xlnt::relationship("", relationship_type::hyperlink,
+    d_->hyperlink_ = std::make_shared<detail::hyperlink_impl>();
+    d_->hyperlink_->relationship = xlnt::relationship("", relationship_type::hyperlink,
         uri(""), uri(range_address), target_mode::internal);
 
     // if a value is already present, the display string is ignored
     if (has_value())
     {
-        d_->hyperlink_.get().display.set(to_string());
+        d_->hyperlink_->display.emplace(to_string());
     }
     else
     {
-        d_->hyperlink_.get().display.set(display.empty() ? range_address : display);
+        d_->hyperlink_->display.emplace(display.empty() ? range_address : display);
         value(hyperlink().display());
     }
 }
@@ -472,19 +472,19 @@ void cell::formula(const std::string &formula)
 
 bool cell::has_formula() const
 {
-    return d_->formula_.is_set();
+    return d_->formula_.has_value();
 }
 
 std::string cell::formula() const
 {
-    return d_->formula_.get();
+    return d_->formula_.value();
 }
 
 void cell::clear_formula()
 {
     if (has_formula())
     {
-        d_->formula_.clear();
+        d_->formula_ = nullptr;
         worksheet().garbage_collect_formulae();
     }
 }
@@ -505,7 +505,7 @@ void cell::error(const std::string &error)
         throw invalid_data_type();
     }
 
-    d_->value_text_.plain_text(error, false);
+    d_->value_text_->plain_text(error, false);
     d_->type_ = type::error;
 }
 
@@ -596,7 +596,7 @@ protection cell::computed_protection() const
 void cell::clear_value()
 {
     d_->value_numeric_ = 0;
-    d_->value_text_.clear();
+    d_->value_text_ = nullptr;
     d_->type_ = cell::type::empty;
     clear_formula();
 }
@@ -670,37 +670,37 @@ XLNT_API timedelta cell::value() const
 void cell::alignment(const class alignment &alignment_)
 {
     auto new_format = has_format() ? modifiable_format() : workbook().create_format();
-    format(new_format.alignment(alignment_, optional<bool>(true)));
+    format(new_format.alignment(alignment_, std::optional<bool>(true)));
 }
 
 void cell::border(const class border &border_)
 {
     auto new_format = has_format() ? modifiable_format() : workbook().create_format();
-    format(new_format.border(border_, optional<bool>(true)));
+    format(new_format.border(border_, std::optional<bool>(true)));
 }
 
 void cell::fill(const class fill &fill_)
 {
     auto new_format = has_format() ? modifiable_format() : workbook().create_format();
-    format(new_format.fill(fill_, optional<bool>(true)));
+    format(new_format.fill(fill_, std::optional<bool>(true)));
 }
 
 void cell::font(const class font &font_)
 {
     auto new_format = has_format() ? modifiable_format() : workbook().create_format();
-    format(new_format.font(font_, optional<bool>(true)));
+    format(new_format.font(font_, std::optional<bool>(true)));
 }
 
 void cell::number_format(const class number_format &number_format_)
 {
     auto new_format = has_format() ? modifiable_format() : workbook().create_format();
-    format(new_format.number_format(number_format_, optional<bool>(true)));
+    format(new_format.number_format(number_format_, std::optional<bool>(true)));
 }
 
 void cell::protection(const class protection &protection_)
 {
     auto new_format = has_format() ? modifiable_format() : workbook().create_format();
-    format(new_format.protection(protection_, optional<bool>(true)));
+    format(new_format.protection(protection_, std::optional<bool>(true)));
 }
 
 template <>
@@ -717,7 +717,7 @@ XLNT_API rich_text cell::value() const
         return workbook().shared_strings(static_cast<std::size_t>(d_->value_numeric_));
     }
 
-    return d_->value_text_;
+    return *d_->value_text_;
 }
 
 bool cell::has_value() const
@@ -750,7 +750,7 @@ std::string cell::to_string() const
 
 bool cell::has_format() const
 {
-    return d_->format_.is_set();
+    return d_->format_ != nullptr;
 }
 
 void cell::format(const class format new_format)
@@ -838,10 +838,10 @@ void cell::value(const std::string &value_string, bool infer_type)
 
 void cell::clear_format()
 {
-    if (d_->format_.is_set())
+    if (d_->format_ != nullptr)
     {
         format().d_->references -= format().d_->references > 0 ? 1 : 0;
-        d_->format_.clear();
+        d_->format_ = nullptr;
     }
 }
 
@@ -899,22 +899,22 @@ bool cell::has_style() const
 
 format cell::modifiable_format()
 {
-    if (!d_->format_.is_set())
+    if (d_->format_ == nullptr)
     {
         throw invalid_attribute();
     }
 
-    return xlnt::format(d_->format_.get());
+    return xlnt::format(d_->format_);
 }
 
 const format cell::format() const
 {
-    if (!d_->format_.is_set())
+    if (d_->format_ == nullptr)
     {
         throw invalid_attribute();
     }
 
-    return xlnt::format(d_->format_.get());
+    return xlnt::format(d_->format_);
 }
 
 alignment cell::alignment() const
@@ -949,14 +949,14 @@ protection cell::protection() const
 
 bool cell::has_hyperlink() const
 {
-    return d_->hyperlink_.is_set();
+    return d_->hyperlink_ != nullptr;
 }
 
 // comment
 
 bool cell::has_comment()
 {
-    return d_->comment_.is_set();
+    return d_->comment_ != nullptr;
 }
 
 void cell::clear_comment()
@@ -964,7 +964,7 @@ void cell::clear_comment()
     if (has_comment())
     {
         d_->parent_->comments_.erase(reference().to_string());
-        d_->comment_.clear();
+        d_->comment_ = nullptr;
     }
 }
 
@@ -975,7 +975,7 @@ class comment cell::comment()
         throw xlnt::exception("cell has no comment");
     }
 
-    return *d_->comment_.get();
+    return *d_->comment_;
 }
 
 void cell::comment(const std::string &text, const std::string &author)
@@ -992,12 +992,12 @@ void cell::comment(const class comment &new_comment)
 {
     if (has_comment())
     {
-        *d_->comment_.get() = new_comment;
+        *d_->comment_ = new_comment;
     }
     else
     {
         d_->parent_->comments_[reference().to_string()] = new_comment;
-        d_->comment_.set(&d_->parent_->comments_[reference().to_string()]);
+        d_->comment_ = &d_->parent_->comments_[reference().to_string()];
     }
 
     // offset comment 5 pixels down and 5 pixels right of the top right corner of the cell
@@ -1005,7 +1005,7 @@ void cell::comment(const class comment &new_comment)
     cell_position.first += static_cast<int>(width()) + 5;
     cell_position.second += 5;
 
-    d_->comment_.get()->position(cell_position.first, cell_position.second);
+    d_->comment_->position(cell_position.first, cell_position.second);
 
     worksheet().register_comments_in_manifest();
 }

@@ -263,7 +263,7 @@ private:
     /// <summary>
     /// The optional ID
     /// </summary>
-    optional<std::size_t> id_;
+    std::optional<std::size_t> id_;
 
     /// <summary>
     /// The format code

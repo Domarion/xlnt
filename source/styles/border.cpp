@@ -28,7 +28,7 @@
 
 namespace xlnt {
 
-optional<xlnt::color> border::border_property::color() const
+std::optional<xlnt::color> border::border_property::color() const
 {
     return color_;
 }
@@ -39,7 +39,7 @@ border::border_property &border::border_property::color(const xlnt::color &c)
     return *this;
 }
 
-optional<border_style> border::border_property::style() const
+std::optional<border_style> border::border_property::style() const
 {
     return style_;
 }
@@ -54,27 +54,27 @@ bool border::border_property::operator==(const border::border_property &right) c
 {
     auto &left = *this;
 
-    if (left.style().is_set() != right.style().is_set())
+    if (left.style().has_value() != right.style().has_value())
     {
         return false;
     }
 
-    if (left.style().is_set())
+    if (left.style().has_value())
     {
-        if (left.style().get() != right.style().get())
+        if (left.style().value() != right.style().value())
         {
             return false;
         }
     }
 
-    if (left.color().is_set() != right.color().is_set())
+    if (left.color().has_value() != right.color().has_value())
     {
         return false;
     }
 
-    if (left.color().is_set())
+    if (left.color().has_value())
     {
-        if (left.color().get() != right.color().get())
+        if (left.color().value() != right.color().value())
         {
             return false;
         }
@@ -101,7 +101,7 @@ const std::vector<xlnt::border_side> &border::all_sides()
     return sides;
 }
 
-optional<border::border_property> border::side(border_side s) const
+std::optional<border::border_property> border::side(border_side s) const
 {
     switch (s)
     {
@@ -160,7 +160,7 @@ border &border::diagonal(diagonal_direction direction)
     return *this;
 }
 
-optional<diagonal_direction> border::diagonal() const
+std::optional<diagonal_direction> border::diagonal() const
 {
     return diagonal_direction_;
 }
@@ -171,14 +171,14 @@ bool border::operator==(const border &right) const
 
     for (auto side : border::all_sides())
     {
-        if (left.side(side).is_set() != right.side(side).is_set())
+        if (left.side(side).has_value() != right.side(side).has_value())
         {
             return false;
         }
 
-        if (left.side(side).is_set())
+        if (left.side(side).has_value())
         {
-            if (left.side(side).get() != right.side(side).get())
+            if (left.side(side).value() != right.side(side).value())
             {
                 return false;
             }

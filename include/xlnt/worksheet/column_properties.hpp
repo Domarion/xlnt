@@ -38,7 +38,7 @@ public:
     /// <summary>
     /// The optional width of the column
     /// </summary>
-    optional<double> width;
+    std::optional<double> width;
 
     /// <summary>
     /// If true, this is a custom width
@@ -49,7 +49,7 @@ public:
     /// The style index of this column. This shouldn't be used since style indices
     /// aren't supposed to be used directly in xlnt. (TODO)
     /// </summary>
-    optional<std::size_t> style;
+    std::optional<std::size_t> style;
 
     /// <summary>
     /// Is this column sized to fit its content as best it can

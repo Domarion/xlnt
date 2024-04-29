@@ -83,7 +83,7 @@ public:
     /// <summary>
     /// Returns the optional foreground color of this fill
     /// </summary>
-    optional<color> foreground() const;
+    std::optional<color> foreground() const;
 
     /// <summary>
     /// Sets the foreground color and returns a reference to this pattern.
@@ -93,7 +93,7 @@ public:
     /// <summary>
     /// Returns the optional background color of this fill
     /// </summary>
-    optional<color> background() const;
+    std::optional<color> background() const;
 
     /// <summary>
     /// Sets the foreground color and returns a reference to this pattern.
@@ -119,12 +119,12 @@ private:
     /// <summary>
     /// The optional foreground color
     /// </summary>
-    optional<color> foreground_;
+    std::optional<color> foreground_;
 
     /// <summary>
     /// THe optional background color
     /// </summary>
-    optional<color> background_;
+    std::optional<color> background_;
 };
 
 /// <summary>

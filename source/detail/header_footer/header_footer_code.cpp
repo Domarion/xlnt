@@ -27,9 +27,9 @@
 namespace xlnt {
 namespace detail {
 
-std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::string &hf_string, const number_serialiser &serialiser)
+std::array<std::optional<xlnt::rich_text>, 3> decode_header_footer(const std::string &hf_string, const number_serialiser &serialiser)
 {
-    std::array<xlnt::optional<xlnt::rich_text>, 3> result;
+    std::array<std::optional<xlnt::rich_text>, 3> result;
 
     if (hf_string.empty())
     {
@@ -292,12 +292,12 @@ std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::s
             }
 
             case hf_code::font_size: {
-                if (!current_run.second.is_set())
+                if (!current_run.second.has_value())
                 {
                     current_run.second = xlnt::font();
                 }
 
-                current_run.second.get().size(serialiser.deserialise(current_token.value));
+                current_run.second.value().size(serialiser.deserialise(current_token.value));
 
                 break;
             }
@@ -305,12 +305,12 @@ std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::s
             case hf_code::text_font_color: {
                 if (current_token.value.size() == 6)
                 {
-                    if (!current_run.second.is_set())
+                    if (!current_run.second.has_value())
                     {
                         current_run.second = xlnt::font();
                     }
 
-                    current_run.second.get().color(xlnt::rgb_color(current_token.value));
+                    current_run.second.value().color(xlnt::rgb_color(current_token.value));
                 }
 
                 break;
@@ -344,11 +344,11 @@ std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::s
             }
 
             case hf_code::text_single_underline: {
-                if (!current_run.second.is_set())
+                if (!current_run.second.has_value())
                 {
                     current_run.second = xlnt::font();
                 }
-                current_run.second.get().underline(font::underline_style::single);
+                current_run.second.value().underline(font::underline_style::single);
                 break;
             }
 
@@ -383,14 +383,14 @@ std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::s
                 auto comma_index = current_token.value.find(',');
                 auto font_name = current_token.value.substr(0, comma_index);
 
-                if (!current_run.second.is_set())
+                if (!current_run.second.has_value())
                 {
                     current_run.second = xlnt::font();
                 }
 
                 if (font_name != "-")
                 {
-                    current_run.second.get().name(font_name);
+                    current_run.second.value().name(font_name);
                 }
 
                 if (comma_index != std::string::npos)
@@ -399,7 +399,7 @@ std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::s
 
                     if (font_type == "Bold")
                     {
-                        current_run.second.get().bold(true);
+                        current_run.second.value().bold(true);
                     }
                     else if (font_type == "Italic")
                     {
@@ -407,7 +407,7 @@ std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::s
                     }
                     else if (font_type == "BoldItalic")
                     {
-                        current_run.second.get().bold(true);
+                        current_run.second.value().bold(true);
                     }
                 }
 
@@ -415,12 +415,12 @@ std::array<xlnt::optional<xlnt::rich_text>, 3> decode_header_footer(const std::s
             }
 
             case hf_code::bold_font_style: {
-                if (!current_run.second.is_set())
+                if (!current_run.second.has_value())
                 {
                     current_run.second = xlnt::font();
                 }
 
-                current_run.second.get().bold(true);
+                current_run.second.value().bold(true);
 
                 break;
             }
@@ -476,16 +476,16 @@ std::string encode_header_footer(const rich_text &t, header_footer::location whe
     {
         if (run.first.empty()) continue;
 
-        if (run.second.is_set())
+        if (run.second.has_value())
         {
-            if (run.second.get().has_name())
+            if (run.second.value().has_name())
             {
                 encoded.push_back('&');
                 encoded.push_back('"');
-                encoded.append(run.second.get().name());
+                encoded.append(run.second.value().name());
                 encoded.push_back(',');
 
-                if (run.second.get().bold())
+                if (run.second.value().bold())
                 {
                     encoded.append("Bold");
                 }
@@ -497,19 +497,19 @@ std::string encode_header_footer(const rich_text &t, header_footer::location whe
 
                 encoded.push_back('"');
             }
-            else if (run.second.get().bold())
+            else if (run.second.value().bold())
             {
                 encoded.append("&B");
             }
 
-            if (run.second.get().has_size())
+            if (run.second.value().has_size())
             {
                 encoded.push_back('&');
-                encoded.append(serialiser.serialise(run.second.get().size()));
+                encoded.append(serialiser.serialise(run.second.value().size()));
             }
-            if (run.second.get().underlined())
+            if (run.second.value().underlined())
             {
-                switch (run.second.get().underline())
+                switch (run.second.value().underline())
                 {
                 case font::underline_style::single:
                 case font::underline_style::single_accounting:
@@ -523,11 +523,11 @@ std::string encode_header_footer(const rich_text &t, header_footer::location whe
                     break;
                 }
             }
-            if (run.second.get().has_color())
+            if (run.second.value().has_color())
             {
                 encoded.push_back('&');
                 encoded.push_back('K');
-                encoded.append(run.second.get().color().rgb().hex_string().substr(2));
+                encoded.append(run.second.value().color().rgb().hex_string().substr(2));
             }
         }
 

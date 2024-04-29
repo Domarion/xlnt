@@ -85,7 +85,7 @@ public:
     /// <summary>
     /// Returns the optional value of indentation width in number of spaces.
     /// </summary>
-    optional<int> indent() const;
+    std::optional<int> indent() const;
 
     /// <summary>
     /// Sets the indent size in number of spaces from the side of the cell. This will only
@@ -96,7 +96,7 @@ public:
     /// <summary>
     /// Returns the optional value of rotation for text in the cell in degrees.
     /// </summary>
-    optional<int> rotation() const;
+    std::optional<int> rotation() const;
 
     /// <summary>
     /// Sets the rotation for text in the cell in degrees.
@@ -106,7 +106,7 @@ public:
     /// <summary>
     /// Returns the optional horizontal alignment.
     /// </summary>
-    optional<horizontal_alignment> horizontal() const;
+    std::optional<horizontal_alignment> horizontal() const;
 
     /// <summary>
     /// Sets the horizontal alignment.
@@ -116,7 +116,7 @@ public:
     /// <summary>
     /// Returns the optional vertical alignment.
     /// </summary>
-    optional<vertical_alignment> vertical() const;
+    std::optional<vertical_alignment> vertical() const;
 
     /// <summary>
     /// Sets the vertical alignment.
@@ -147,22 +147,22 @@ private:
     /// <summary>
     /// The indent in number of spaces from the side
     /// </summary>
-    optional<int> indent_;
+    std::optional<int> indent_;
 
     /// <summary>
     /// The text roation in degrees
     /// </summary>
-    optional<int> text_rotation_;
+    std::optional<int> text_rotation_;
 
     /// <summary>
     /// The horizontal alignment
     /// </summary>
-    optional<horizontal_alignment> horizontal_;
+    std::optional<horizontal_alignment> horizontal_;
 
     /// <summary>
     /// The vertical alignment
     /// </summary>
-    optional<vertical_alignment> vertical_;
+    std::optional<vertical_alignment> vertical_;
 };
 
 } // namespace xlnt

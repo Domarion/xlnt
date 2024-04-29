@@ -38,8 +38,6 @@ class parser;
 namespace xlnt {
 
 class cell;
-template <typename T>
-class optional;
 class path;
 class workbook;
 class worksheet;

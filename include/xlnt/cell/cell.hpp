@@ -197,7 +197,7 @@ public:
     /// <summary>
     /// Sets the value and formatting of this cell to that of other_cell.
     /// </summary>
-    void value(const cell other_cell);
+    void value(const cell& other_cell);
 
     /// <summary>
     /// Analyzes string_value to determine its type, convert it to that type,

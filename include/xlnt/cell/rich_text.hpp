@@ -157,7 +157,7 @@ private:
     /// </summary>
     std::vector<rich_text_run> runs_;
     std::vector<phonetic_run> phonetic_runs_;
-    optional<phonetic_pr> phonetic_properties_;
+    std::optional<phonetic_pr> phonetic_properties_;
 };
 
 class XLNT_API rich_text_hash

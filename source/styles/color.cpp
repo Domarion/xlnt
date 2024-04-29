@@ -274,7 +274,7 @@ rgb_color &color::rgb()
 
 bool color::has_tint() const
 {
-    return tint_.is_set();
+    return tint_.has_value();
 }
 
 void color::tint(double tint)
@@ -284,7 +284,7 @@ void color::tint(double tint)
 
 double color::tint() const
 {
-    return tint_.is_set() ? tint_.get() : 0.0;
+    return tint_.value_or(0.0);
 }
 
 void color::assert_type(color_type t) const
@@ -301,7 +301,7 @@ bool color::operator==(const xlnt::color &other) const
     {
         return false;
     }
-    if (tint_.is_set() != other.tint_.is_set() || (tint_.is_set() && std::fabs(tint_.get() - other.tint_.get()) != 0.0))
+    if (tint_.has_value() != other.tint_.has_value() || (tint_.has_value() && std::fabs(tint_.value() - other.tint_.value()) != 0.0))
     {
         return false;
     }

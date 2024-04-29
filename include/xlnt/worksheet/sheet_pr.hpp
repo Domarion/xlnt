@@ -36,47 +36,47 @@ struct XLNT_API sheet_pr
     /// <summary>
     /// is horizontally synced to the anchor point
     /// </summary>
-    optional<bool> sync_horizontal;
+    std::optional<bool> sync_horizontal;
 
     /// <summary>
     /// is vertically synced to the anchor point
     /// </summary>
-    optional<bool> sync_vertical;
+    std::optional<bool> sync_vertical;
 
     /// <summary>
     /// Anchor point for worksheet's window
     /// </summary>
-    optional<cell_reference> sync_ref;
+    std::optional<cell_reference> sync_ref;
 
     /// <summary>
     /// Lotus compatibility option
     /// </summary>
-    optional<bool> transition_evaluation;
+    std::optional<bool> transition_evaluation;
 
     /// <summary>
     /// Lotus compatibility option
     /// </summary>
-    optional<bool> transition_entry;
+    std::optional<bool> transition_entry;
 
     /// <summary>
     /// worksheet is published
     /// </summary>
-    optional<bool> published;
+    std::optional<bool> published;
 
     /// <summary>
     /// stable name of the sheet
     /// </summary>
-    optional<std::string> code_name;
+    std::optional<std::string> code_name;
 
     /// <summary>
     /// worksheet has one or more autofilters or advanced filters on
     /// </summary>
-    optional<bool> filter_mode;
+    std::optional<bool> filter_mode;
 
     /// <summary>
     /// whether the conditional formatting calculations shall be evaluated
     /// </summary>
-    optional<bool> enable_format_condition_calculation;
+    std::optional<bool> enable_format_condition_calculation;
 };
 
 inline bool operator==(const sheet_pr &lhs, const sheet_pr &rhs)

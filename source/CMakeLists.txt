@@ -26,10 +26,7 @@ if(COVERAGE)
 endif()
 
 # Non-target-specific compiler settings
-if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4") # level 4 warnings
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP") # multi-processor compilation
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall") # all warnings
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra") # extra warnings
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas") # ignore MSVC and Clang pragmas
@@ -52,13 +49,6 @@ endif()
 if(STATIC_CRT)
   include(${XLNT_ROOT_DIR}/cmake/ucm.cmake)
   ucm_set_runtime(STATIC)
-endif()
-
-if(APPLE)
-  # Prevent a warning about deployment target not being set by setting it to current OSX version
-  execute_process(COMMAND "sw_vers -productVersion | awk -F'.' '{print $1\".\"$2}'"
-    OUTPUT_VARIABLE OSX_VERSION)
-  set(CMAKE_OSX_DEPLOYMENT_TARGET ${OSX_VERSION})
 endif()
 
 file(GLOB ROOT_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/*.hpp)
@@ -190,22 +180,7 @@ target_include_directories(xlnt
 	${XLNT_SOURCE_DIR}/../third-party/utfcpp)
 
 # Platform- and file-specific settings, MSVC
-if(MSVC)
-  target_compile_definitions(xlnt PRIVATE _CRT_SECURE_NO_WARNINGS=1)
 
-  if(NOT STATIC)
-    target_compile_definitions(xlnt PRIVATE XLNT_EXPORT=1)
-  endif()
-
-  set_target_properties(xlnt PROPERTIES
-    COMPILE_FLAGS "/wd\"4251\" /wd\"4275\" /wd\"4068\"")
-  set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/detail/serialization/miniz.cpp
-    PROPERTIES
-    COMPILE_FLAGS "/wd\"4244\" /wd\"4334\" /wd\"4127\"")
-  set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/detail/cryptography/aes.cpp
-    PROPERTIES
-    COMPILE_FLAGS "/wd\"4996\"")
-else()
   # Platform- and file-specific settings, Clang
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/detail/serialization/miniz.cpp
@@ -222,7 +197,7 @@ else()
 	  PROPERTIES
 	  COMPILE_FLAGS "-Wno-strict-aliasing")
   endif()
-endif()
+
 
 # Group files into pseudo-folders in IDEs
 source_group(xlnt FILES ${ROOT_HEADERS})
@@ -295,7 +270,6 @@ if(NOT TARGET uninstall)
       ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 endif()
 
-if(NOT MSVC)
   # Set pkg-config variables
   set(PKG_CONFIG_LIBDIR ${XLNT_LIB_DEST_DIR})
   set(PKG_CONFIG_INCLUDEDIR ${XLNT_INC_DEST_DIR})
@@ -309,7 +283,7 @@ if(NOT MSVC)
   # pkg-config install
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xlnt.pc"
     DESTINATION ${XLNT_LIB_DEST_DIR}/pkgconfig)
-endif()
+
 
 if(RELEASE)
   set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})

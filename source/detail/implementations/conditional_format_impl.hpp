@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 
 #include <xlnt/styles/conditional_format.hpp>
 #include <xlnt/utils/optional.hpp>
@@ -41,9 +42,9 @@ struct conditional_format_impl
 
 	condition when;
 
-	optional<std::size_t> border_id;
-	optional<std::size_t> fill_id;
-	optional<std::size_t> font_id;
+    std::optional<std::size_t> border_id;
+    std::optional<std::size_t> fill_id;
+    std::optional<std::size_t> font_id;
 };
 
 } // namespace detail

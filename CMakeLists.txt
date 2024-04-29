@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 project(xlnt_all)
 
-add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+#add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+#add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 # CTest setup
 # include (CTest) # Add this for valgrind support; CTest works without it
@@ -12,11 +12,11 @@ enable_testing()
 set(COMBINED_PROJECT TRUE)
 
 # Library type
-option(STATIC "Set to ON to build xlnt as a static library instead of a shared library" OFF)
+option(STATIC "Set to ON to build xlnt as a static library instead of a shared library" ON)
 
 # c++ language standard to use
-set(XLNT_VALID_LANGS 11 14 17)
-set(XLNT_CXX_LANG "14" CACHE STRING "c++ language features to compile with")
+set(XLNT_VALID_LANGS 17 20)
+set(XLNT_CXX_LANG "17" CACHE STRING "c++ language features to compile with")
 # enumerate allowed values for cmake gui
 set_property(CACHE XLNT_CXX_LANG PROPERTY STRINGS ${XLNT_VALID_LANGS})
 # validate value is in XLNT_VALID_LANGS
@@ -33,27 +33,6 @@ option(BENCHMARKS "Set to ON to build performance benchmarks (in ./benchmarks)" 
 option(PYTHON "Set to ON to build Arrow conversion functions (in ./python)" OFF)
 
 # Platform specific options
-if(MSVC)
-  option(STATIC_CRT "Link with the static version of MSVCRT (/MD[d])" OFF)
-else()
-  option(COVERAGE "Generate coverage data using gcov" OFF)
-endif()
-
-# Add components according to selected options
-if(SAMPLES)
-  add_subdirectory(samples)
-endif()
-
-if(BENCHMARKS)
-  add_subdirectory(benchmarks)
-endif()
-
-if(TESTS)
-  add_subdirectory(tests)
-endif()
-
-if(PYTHON)
-  add_subdirectory(python)
-endif()
+option(COVERAGE "Generate coverage data using gcov" OFF)
 
 add_subdirectory(source)

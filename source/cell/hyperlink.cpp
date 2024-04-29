@@ -35,82 +35,87 @@ hyperlink::hyperlink(detail::hyperlink_impl *d)
 
 relationship hyperlink::relationship() const
 {
-    if (!external())
-    {
-        throw xlnt::exception("only external hyperlinks have associated relationships");
-    }
+    return {};
+//    if (!external())
+//    {
+//        throw xlnt::exception("only external hyperlinks have associated relationships");
+//    }
 
-    return d_->relationship;
+//    return d_->relationship;
 }
 
 std::string hyperlink::url() const
 {
-    if (!external())
-    {
-        throw xlnt::exception("only external hyperlinks have associated urls");
-    }
+    return {};
+//    if (!external())
+//    {
+//        throw xlnt::exception("only external hyperlinks have associated urls");
+//    }
 
-    return d_->relationship.target().to_string();
+//    return d_->relationship.target().to_string();
 }
 
 std::string hyperlink::target_range() const
 {
-    if (external())
-    {
-        throw xlnt::exception("only internal hyperlinks have a target range");
-    }
+    return {};
 
-    return d_->relationship.target().to_string();
+//    if (external())
+//    {
+//        throw xlnt::exception("only internal hyperlinks have a target range");
+//    }
+
+//    return d_->relationship.target().to_string();
 }
 
 bool hyperlink::external() const
 {
-    return d_->relationship.target_mode() == target_mode::external;
+    return false;
+//    return d_->relationship.target_mode() == target_mode::external;
 }
 
 bool hyperlink::has_display() const
 {
-    return d_->display.is_set();
+    return d_->display.has_value();
 }
 
 void hyperlink::display(const std::string &value)
 {
-    d_->display.set(value);
+    d_->display.emplace(value);
 }
 
 const std::string &hyperlink::display() const
 {
-    return d_->display.get();
+    return d_->display.value();
 }
 
 bool hyperlink::has_tooltip() const
 {
-    return d_->tooltip.is_set();
+    return d_->tooltip.has_value();
 }
 
 void hyperlink::tooltip(const std::string &value)
 {
-    d_->tooltip.set(value);
+    d_->tooltip.emplace(value);
 }
 
 const std::string &hyperlink::tooltip() const
 {
-    return d_->tooltip.get();
+    return d_->tooltip.value();
 }
 
 bool hyperlink::has_location() const
 {
-    return d_->location.is_set();
+    return d_->location.has_value();
 }
 
 void hyperlink::location(const std::string &value)
 {
-    d_->location.set(value);
+    d_->location.emplace(value);
 }
 
 const std::string &hyperlink::location() const
 {
-    return d_->location.get();
+    return d_->location.value();
 }
 
 } // namespace xlnt

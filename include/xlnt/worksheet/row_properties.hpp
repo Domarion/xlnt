@@ -37,12 +37,12 @@ public:
     /// <summary>
     /// Row height
     /// </summary>
-    optional<double> height;
+    std::optional<double> height;
 
     /// <summary>
     /// Distance in pixels from the bottom of the cell to the baseline of the cell content
     /// </summary>
-    optional<double> dy_descent;
+    std::optional<double> dy_descent;
 
     /// <summary>
     /// Whether or not the height is different from the default
@@ -57,19 +57,22 @@ public:
     /// <summary>
     /// True if row style should be applied
     /// </summary>
-    optional<bool> custom_format;
+    std::optional<bool> custom_format;
 
     /// <summary>
     /// The index to the style used by all cells in this row
     /// </summary>
-    optional<std::size_t> style;
+    std::optional<std::size_t> style;
 
     /// <summary>
     /// The row column span, used as part of the row block optimisation.
     /// This used for loading this attribute from existing excel files mainly for inspecting
     /// and not used when saving, it is calculated in the xlsx_producer.
     /// </summary>
-    optional<std::string> spans;
+    std::optional<std::string> spans;
+
+    /// grouping level. subgroups have level + 1
+    std::optional<size_t> outline_level;
 };
 
 inline bool operator==(const row_properties &lhs, const row_properties &rhs)
@@ -80,7 +83,8 @@ inline bool operator==(const row_properties &lhs, const row_properties &rhs)
         && lhs.hidden == rhs.hidden
         && lhs.custom_format == rhs.custom_format
         && lhs.style == rhs.style
-        && lhs.spans == rhs.spans;
+        && lhs.spans == rhs.spans
+        && lhs.outline_level == rhs.outline_level;
 }
 
 } // namespace xlnt

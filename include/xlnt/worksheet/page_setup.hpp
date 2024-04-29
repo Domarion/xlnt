@@ -187,15 +187,15 @@ public:
     /// <summary>
     /// The orientation
     /// </summary>
-    xlnt::optional<xlnt::orientation> orientation_;
+    std::optional<xlnt::orientation> orientation_;
     /// <summary>
     /// The horizontal dpi
     /// </summary>
-    xlnt::optional<std::size_t> horizontal_dpi_;
+    std::optional<std::size_t> horizontal_dpi_;
     /// <summary>
     /// The vertical dpi
     /// </summary>
-    xlnt::optional<std::size_t> vertical_dpi_;
+    std::optional<std::size_t> vertical_dpi_;
 
     bool operator==(const page_setup &rhs) const;
 
@@ -218,7 +218,7 @@ private:
     /// <summary>
     /// The paper size
     /// </summary>
-    xlnt::optional<xlnt::paper_size> paper_size_;
+    std::optional<xlnt::paper_size> paper_size_;
 
     /// <summary>
     /// Whether or not to fit to page
@@ -238,7 +238,7 @@ private:
     /// <summary>
     /// The amount to scale the worksheet
     /// </summary>
-    xlnt::optional<double> scale_;
+    std::optional<double> scale_;
 };
 
 } // namespace xlnt

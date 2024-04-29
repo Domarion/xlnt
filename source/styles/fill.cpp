@@ -23,7 +23,7 @@
 // @author: see AUTHORS file
 
 #include <cmath> // for std::fabs
-
+#include <xlnt/utils/exceptions.hpp>
 #include <xlnt/styles/fill.hpp>
 
 namespace xlnt {
@@ -45,7 +45,7 @@ pattern_fill &pattern_fill::type(pattern_fill_type type)
     return *this;
 }
 
-optional<color> pattern_fill::foreground() const
+std::optional<color> pattern_fill::foreground() const
 {
     return foreground_;
 }
@@ -54,15 +54,15 @@ pattern_fill &pattern_fill::foreground(const color &new_foreground)
 {
     foreground_ = new_foreground;
 
-    if (!background_.is_set())
+    if (!background_.has_value())
     {
-        background_.set(indexed_color(64));
+        background_.emplace(indexed_color(64));
     }
 
     return *this;
 }
 
-optional<color> pattern_fill::background() const
+std::optional<color> pattern_fill::background() const
 {
     return background_;
 }
@@ -75,27 +75,27 @@ pattern_fill &pattern_fill::background(const color &new_background)
 
 bool pattern_fill::operator==(const pattern_fill &other) const
 {
-    if (background().is_set() != other.background().is_set())
+    if (background().has_value() != other.background().has_value())
     {
         return false;
     }
 
-    if (background().is_set())
+    if (background().has_value())
     {
-        if (background().get() != other.background().get())
+        if (background().value() != other.background().value())
         {
             return false;
         }
     }
 
-    if (foreground().is_set() != other.foreground().is_set())
+    if (foreground().has_value() != other.foreground().has_value())
     {
         return false;
     }
 
-    if (foreground().is_set())
+    if (foreground().has_value())
     {
-        if (foreground().get() != other.foreground().get())
+        if (foreground().value() != other.foreground().value())
         {
             return false;
         }
@@ -283,7 +283,7 @@ gradient_fill fill::gradient_fill() const
 {
     if (type_ != fill_type::gradient)
     {
-        throw invalid_attribute();
+        throw xlnt::invalid_attribute();
     }
 
     return gradient_;

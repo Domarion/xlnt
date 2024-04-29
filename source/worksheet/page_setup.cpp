@@ -57,7 +57,7 @@ void page_setup::sheet_state(xlnt::sheet_state sheet_state)
 
 paper_size page_setup::paper_size() const
 {
-    return paper_size_.get();
+    return paper_size_.value();
 }
 
 void page_setup::paper_size(xlnt::paper_size paper_size)
@@ -67,7 +67,7 @@ void page_setup::paper_size(xlnt::paper_size paper_size)
 
 bool page_setup::has_paper_size() const
 {
-    return this->paper_size_.is_set();
+    return this->paper_size_.has_value();
 }
 
 bool page_setup::fit_to_page() const
@@ -107,12 +107,12 @@ void page_setup::scale(double scale)
 
 double page_setup::scale() const
 {
-    return scale_.get();
+    return scale_.value();
 }
 
 bool page_setup::has_scale() const
 {
-    return this->scale_.is_set();
+    return this->scale_.has_value();
 }
 
 const std::string& page_setup::rel_id() const

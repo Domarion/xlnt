@@ -144,6 +144,7 @@ public:
     static align alignment_from_string(const std::string &str);
 
     bool operator==(const phonetic_pr &rhs) const;
+    bool operator!=(const phonetic_pr &rhs) const;
 
 private:
     /// <summary>
@@ -156,12 +157,12 @@ private:
     /// Type of characters to use.
     /// Default: full width katakana
     /// </summary>
-    xlnt::optional<phonetic_type> type_;
+    std::optional<phonetic_type> type_;
 
     /// <summary>
     /// align across the cell(s).
     /// Default: Left
     /// </summary>
-    xlnt::optional<align> alignment_;
+    std::optional<align> alignment_;
 };
 } // namespace xlnt

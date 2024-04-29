@@ -37,7 +37,7 @@ namespace xlnt {
 struct XLNT_API rich_text_run
 {
     std::string first;
-    optional<font> second;
+    std::optional<font> second;
     bool preserve_space;
 
     bool operator==(const rich_text_run &other) const;

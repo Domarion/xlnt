@@ -59,7 +59,7 @@ struct XLNT_API pane
     /// <summary>
     /// The optional top left cell
     /// </summary>
-    optional<cell_reference> top_left_cell;
+    std::optional<cell_reference> top_left_cell;
 
     /// <summary>
     /// The state of the pane

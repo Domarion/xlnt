@@ -28,6 +28,7 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -35,15 +36,12 @@
 #include <detail/external/include_libstudxml.hpp>
 #include <detail/serialization/zstream.hpp>
 #include <xlnt/utils/numeric.hpp>
-
 namespace xlnt {
 
 class cell;
 class color;
 class rich_text;
 class manifest;
-template<typename T>
-class optional;
 class path;
 class range_reference;
 class relationship;

@@ -103,7 +103,7 @@ public:
         /// <summary>
         /// Returns the color of the side.
         /// </summary>
-        optional<class color> color() const;
+        std::optional<class color> color() const;
 
         /// <summary>
         /// Sets the color of the side and returns a reference to the side properties.
@@ -113,7 +113,7 @@ public:
         /// <summary>
         /// Returns the style of the side.
         /// </summary>
-        optional<border_style> style() const;
+        std::optional<border_style> style() const;
 
         /// <summary>
         /// Sets the style of the side and returns a reference to the side properties.
@@ -134,12 +134,12 @@ public:
         /// <summary>
         /// The color of the side
         /// </summary>
-        optional<class color> color_;
+        std::optional<class color> color_;
 
         /// <summary>
         /// The style of the side
         /// </summary>
-        optional<border_style> style_;
+        std::optional<border_style> style_;
     };
 
     /// <summary>
@@ -155,7 +155,7 @@ public:
     /// <summary>
     /// Returns the border properties of the given side.
     /// </summary>
-    optional<border_property> side(border_side s) const;
+    std::optional<border_property> side(border_side s) const;
 
     /// <summary>
     /// Sets the border properties of the side s to prop.
@@ -165,7 +165,7 @@ public:
     /// <summary>
     /// Returns the diagonal direction of this border.
     /// </summary>
-    optional<diagonal_direction> diagonal() const;
+    std::optional<diagonal_direction> diagonal() const;
 
     /// <summary>
     /// Sets the diagonal direction of this border to dir.
@@ -186,42 +186,42 @@ private:
     /// <summary>
     /// Start side (i.e. left) border properties
     /// </summary>
-    optional<border_property> start_;
+    std::optional<border_property> start_;
 
     /// <summary>
     /// End side (i.e. right) border properties
     /// </summary>
-    optional<border_property> end_;
+    std::optional<border_property> end_;
 
     /// <summary>
     /// Top side border properties
     /// </summary>
-    optional<border_property> top_;
+    std::optional<border_property> top_;
 
     /// <summary>
     /// Bottom side border properties
     /// </summary>
-    optional<border_property> bottom_;
+    std::optional<border_property> bottom_;
 
     /// <summary>
     /// Vertical border properties
     /// </summary>
-    optional<border_property> vertical_;
+    std::optional<border_property> vertical_;
 
     /// <summary>
     /// Horizontal border properties
     /// </summary>
-    optional<border_property> horizontal_;
+    std::optional<border_property> horizontal_;
 
     /// <summary>
     /// Diagonal border properties
     /// </summary>
-    optional<border_property> diagonal_;
+    std::optional<border_property> diagonal_;
 
     /// <summary>
     /// Direction of diagonal border properties to be applied
     /// </summary>
-    optional<diagonal_direction> diagonal_direction_;
+    std::optional<diagonal_direction> diagonal_direction_;
 };
 
 } // namespace xlnt

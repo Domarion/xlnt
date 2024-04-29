@@ -136,7 +136,7 @@ font::underline_style font::underline() const
 
 bool font::has_size() const
 {
-    return size_.is_set();
+    return size_.has_value();
 }
 
 font &font::size(double size)
@@ -147,16 +147,12 @@ font &font::size(double size)
 
 double font::size() const
 {
-    if (size_.is_set())
-    {
-        return size_.get();
-    }
-    return Default_Size;
+    return size_.value_or(Default_Size);
 }
 
 bool font::has_name() const
 {
-    return name_.is_set();
+    return name_.has_value();
 }
 
 font &font::name(const std::string &name)
@@ -167,16 +163,16 @@ font &font::name(const std::string &name)
 
 const std::string &font::name() const
 {
-    if (name_.is_set())
+    if (name_.has_value())
     {
-        return name_.get();
+        return name_.value();
     }
     return Default_Name();
 }
 
 bool font::has_color() const
 {
-    return color_.is_set();
+    return color_.has_value();
 }
 
 font &font::color(const xlnt::color &c)
@@ -187,7 +183,7 @@ font &font::color(const xlnt::color &c)
 
 bool font::has_family() const
 {
-    return family_.is_set();
+    return family_.has_value();
 }
 
 font &font::family(std::size_t family)
@@ -198,7 +194,7 @@ font &font::family(std::size_t family)
 
 bool font::has_charset() const
 {
-    return charset_.is_set();
+    return charset_.has_value();
 }
 
 font &font::charset(std::size_t charset)
@@ -209,12 +205,12 @@ font &font::charset(std::size_t charset)
 
 std::size_t font::charset() const
 {
-    return charset_.get();
+    return charset_.value();
 }
 
 bool font::has_scheme() const
 {
-    return scheme_.is_set();
+    return scheme_.has_value();
 }
 
 font &font::scheme(const std::string &scheme)
@@ -225,17 +221,17 @@ font &font::scheme(const std::string &scheme)
 
 color font::color() const
 {
-    return color_.get();
+    return color_.value();
 }
 
 std::size_t font::family() const
 {
-    return family_.get();
+    return family_.value();
 }
 
 const std::string &font::scheme() const
 {
-    return scheme_.get();
+    return scheme_.value();
 }
 
 bool font::operator==(const font &other) const

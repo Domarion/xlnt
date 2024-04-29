@@ -33,27 +33,27 @@ struct XLNT_API print_options
     /// <summary>
     /// if both grid_lines_set and this are true, grid lines are printed
     /// </summary>
-    optional<bool> print_grid_lines;
+    std::optional<bool> print_grid_lines;
 
     /// <summary>
     /// if both print grid lines and this are true, grid lines are printed
     /// </summary>
-    optional<bool> grid_lines_set;
+    std::optional<bool> grid_lines_set;
 
     /// <summary>
     /// print row and column headings
     /// </summary>
-    optional<bool> print_headings;
+    std::optional<bool> print_headings;
 
     /// <summary>
     /// center on page horizontally
     /// </summary>
-    optional<bool> horizontal_centered;
+    std::optional<bool> horizontal_centered;
 
     /// <summary>
     /// center on page vertically
     /// </summary>
-    optional<bool> vertical_centered;
+    std::optional<bool> vertical_centered;
 };
 
 inline bool operator==(const print_options &lhs, const print_options &rhs)

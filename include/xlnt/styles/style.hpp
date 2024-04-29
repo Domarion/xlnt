@@ -123,7 +123,7 @@ public:
     /// to true, determines whether the alignment should be enabled for cells using
     /// this style.
     /// </summary>
-    style alignment(const xlnt::alignment &new_alignment, optional<bool> applied = {});
+    style alignment(const xlnt::alignment &new_alignment, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns the border of this style.
@@ -140,7 +140,7 @@ public:
     /// to true, determines whether the border should be enabled for cells using
     /// this style.
     /// </summary>
-    style border(const xlnt::border &new_border, optional<bool> applied = {});
+    style border(const xlnt::border &new_border, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns the fill of this style.
@@ -157,7 +157,7 @@ public:
     /// to true, determines whether the border should be enabled for cells using
     /// this style.
     /// </summary>
-    style fill(const xlnt::fill &new_fill, optional<bool> applied = {});
+    style fill(const xlnt::fill &new_fill, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns the font of this style.
@@ -174,7 +174,7 @@ public:
     /// to true, determines whether the font should be enabled for cells using
     /// this style.
     /// </summary>
-    style font(const xlnt::font &new_font, optional<bool> applied = {});
+    style font(const xlnt::font &new_font, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns the number_format of this style.
@@ -191,7 +191,7 @@ public:
     /// to true, determines whether the number format should be enabled for cells using
     /// this style.
     /// </summary>
-    style number_format(const xlnt::number_format &new_number_format, optional<bool> applied = {});
+    style number_format(const xlnt::number_format &new_number_format, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns the protection of this style.
@@ -208,7 +208,7 @@ public:
     /// to true, determines whether the protection should be enabled for cells using
     /// this style.
     /// </summary>
-    style protection(const xlnt::protection &new_protection, optional<bool> applied = {});
+    style protection(const xlnt::protection &new_protection, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns true if the pivot table interface is enabled for this style.

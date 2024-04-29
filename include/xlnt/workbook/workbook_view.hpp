@@ -69,37 +69,37 @@ public:
     /// <summary>
     /// The optional index to the active sheet in this view.
     /// </summary>
-    optional<std::size_t> active_tab;
+    std::optional<std::size_t> active_tab;
 
     /// <summary>
     /// The optional index to the first sheet in this view.
     /// </summary>
-    optional<std::size_t> first_sheet;
+    std::optional<std::size_t> first_sheet;
 
     /// <summary>
     /// The optional ratio between the tabs bar and the horizontal scroll bar.
     /// </summary>
-    optional<std::size_t> tab_ratio;
+    std::optional<std::size_t> tab_ratio;
 
     /// <summary>
     /// The width of the workbook window in twips.
     /// </summary>
-    optional<std::size_t> window_width;
+    std::optional<std::size_t> window_width;
 
     /// <summary>
     /// The height of the workbook window in twips.
     /// </summary>
-    optional<std::size_t> window_height;
+    std::optional<std::size_t> window_height;
 
     /// <summary>
     /// The distance of the workbook window from the left side of the screen in twips.
     /// </summary>
-    optional<int> x_window;
+    std::optional<int> x_window;
 
     /// <summary>
     /// The distance of the workbook window from the top of the screen in twips.
     /// </summary>
-    optional<int> y_window;
+    std::optional<int> y_window;
 };
 
 inline bool operator==(const workbook_view &lhs, const workbook_view &rhs)

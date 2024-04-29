@@ -48,7 +48,7 @@ alignment &alignment::shrink(bool shrink_to_fit)
     return *this;
 }
 
-optional<horizontal_alignment> alignment::horizontal() const
+std::optional<horizontal_alignment> alignment::horizontal() const
 {
     return horizontal_;
 }
@@ -59,7 +59,7 @@ alignment &alignment::horizontal(horizontal_alignment horizontal)
     return *this;
 }
 
-optional<vertical_alignment> alignment::vertical() const
+std::optional<vertical_alignment> alignment::vertical() const
 {
     return vertical_;
 }
@@ -76,7 +76,7 @@ alignment &alignment::indent(int value)
     return *this;
 }
 
-optional<int> alignment::indent() const
+std::optional<int> alignment::indent() const
 {
     return indent_;
 }
@@ -87,7 +87,7 @@ alignment &alignment::rotation(int value)
     return *this;
 }
 
-optional<int> alignment::rotation() const
+std::optional<int> alignment::rotation() const
 {
     return text_rotation_;
 }
@@ -96,40 +96,40 @@ bool alignment::operator==(const alignment &right) const
 {
     auto &left = *this;
 
-    if (left.horizontal().is_set() != right.horizontal().is_set())
+    if (left.horizontal().has_value() != right.horizontal().has_value())
     {
         return false;
     }
 
-    if (left.horizontal().is_set())
+    if (left.horizontal().has_value())
     {
-        if (left.horizontal().get() != right.horizontal().get())
+        if (left.horizontal().value() != right.horizontal().value())
         {
             return false;
         }
     }
 
-    if (left.indent().is_set() != right.indent().is_set())
+    if (left.indent().has_value() != right.indent().has_value())
     {
         return false;
     }
 
-    if (left.indent().is_set())
+    if (left.indent().has_value())
     {
-        if (left.indent().get() != right.indent().get())
+        if (left.indent().value() != right.indent().value())
         {
             return false;
         }
     }
 
-    if (left.rotation().is_set() != right.rotation().is_set())
+    if (left.rotation().has_value() != right.rotation().has_value())
     {
         return false;
     }
 
-    if (left.rotation().is_set())
+    if (left.rotation().has_value())
     {
-        if (left.rotation().get() != right.rotation().get())
+        if (left.rotation().value() != right.rotation().value())
         {
             return false;
         }
@@ -140,14 +140,14 @@ bool alignment::operator==(const alignment &right) const
         return false;
     }
 
-    if (left.vertical().is_set() != right.vertical().is_set())
+    if (left.vertical().has_value() != right.vertical().has_value())
     {
         return false;
     }
 
-    if (left.vertical().is_set())
+    if (left.vertical().has_value())
     {
-        if (left.vertical().get() != right.vertical().get())
+        if (left.vertical().value() != right.vertical().value())
         {
             return false;
         }

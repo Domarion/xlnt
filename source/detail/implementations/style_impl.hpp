@@ -52,26 +52,26 @@ struct style_impl
 	bool custom_builtin;
 	bool hidden_style;
 
-	optional<std::size_t> builtin_id;
-	optional<std::size_t> outline_style;
+    std::optional<std::size_t> builtin_id;
+    std::optional<std::size_t> outline_style;
 
-	optional<std::size_t> alignment_id;
-    optional<bool> alignment_applied;
+    std::optional<std::size_t> alignment_id;
+    std::optional<bool> alignment_applied;
 
-	optional<std::size_t> border_id;
-    optional<bool> border_applied;
+    std::optional<std::size_t> border_id;
+    std::optional<bool> border_applied;
 
-	optional<std::size_t> fill_id;
-    optional<bool> fill_applied;
+    std::optional<std::size_t> fill_id;
+    std::optional<bool> fill_applied;
 
-	optional<std::size_t> font_id;
-    optional<bool> font_applied;
+    std::optional<std::size_t> font_id;
+    std::optional<bool> font_applied;
 
-	optional<std::size_t> number_format_id;
-    optional<bool> number_format_applied;
+    std::optional<std::size_t> number_format_id;
+    std::optional<bool> number_format_applied;
 
-	optional<std::size_t> protection_id;
-    optional<bool> protection_applied;
+    std::optional<std::size_t> protection_id;
+    std::optional<bool> protection_applied;
 
     bool pivot_button_ = false;
     bool quote_prefix_ = false;

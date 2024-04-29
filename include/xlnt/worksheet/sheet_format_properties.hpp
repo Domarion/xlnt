@@ -38,7 +38,7 @@ public:
     /// <summary>
     /// The base column width
     /// </summary>
-    optional<double> base_col_width;
+    std::optional<double> base_col_width;
 
     /// <summary>
     /// The default row height is required
@@ -48,12 +48,12 @@ public:
     /// <summary>
     /// The default column width
     /// </summary>
-    optional<double> default_column_width;
+    std::optional<double> default_column_width;
 
     /// <summary>
     /// x14ac extension, dyDescent property
     /// </summary>
-    optional<double> dy_descent;
+    std::optional<double> dy_descent;
 };
 
 inline bool operator==(const sheet_format_properties &lhs, const sheet_format_properties &rhs)

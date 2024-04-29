@@ -292,7 +292,7 @@ void number_format::format_string(const std::string &format_string, std::size_t 
 
 bool number_format::has_id() const
 {
-    return id_.is_set();
+    return id_.has_value();
 }
 
 void number_format::id(std::size_t id)
@@ -307,7 +307,7 @@ std::size_t number_format::id() const
         throw invalid_attribute();
     }
 
-    return id_.get();
+    return id_.value();
 }
 
 bool number_format::is_date_format() const

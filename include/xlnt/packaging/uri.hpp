@@ -170,65 +170,66 @@ public:
     bool operator==(const uri &other) const;
 
 private:
-    /// <summary>
-    /// True if this URI is absolute.
-    /// </summary>
-    bool absolute_ = false;
+// TODO: commented: not used
+//    /// <summary>
+//    /// True if this URI is absolute.
+//    /// </summary>
+//    bool absolute_ = false;
 
-    /// <summary>
-    /// The scheme, like "http"
-    /// </summary>
-    std::string scheme_;
+//    /// <summary>
+//    /// The scheme, like "http"
+//    /// </summary>
+//    std::string scheme_;
 
-    /// <summary>
-    /// True if this URI has an authentication section.
-    /// </summary>
-    bool has_authentication_ = false;
+//    /// <summary>
+//    /// True if this URI has an authentication section.
+//    /// </summary>
+//    bool has_authentication_ = false;
 
-    /// <summary>
-    /// The username
-    /// </summary>
-    std::string username_;
+//    /// <summary>
+//    /// The username
+//    /// </summary>
+//    std::string username_;
 
-    /// <summary>
-    /// The password
-    /// </summary>
-    std::string password_;
+//    /// <summary>
+//    /// The password
+//    /// </summary>
+//    std::string password_;
 
-    /// <summary>
-    /// The host
-    /// </summary>
-    std::string host_;
+//    /// <summary>
+//    /// The host
+//    /// </summary>
+//    std::string host_;
 
-    /// <summary>
-    /// True if this URI has a non-default port specified
-    /// </summary>
-    bool has_port_ = false;
+//    /// <summary>
+//    /// True if this URI has a non-default port specified
+//    /// </summary>
+//    bool has_port_ = false;
 
-    /// <summary>
-    /// The numeric port
-    /// </summary>
-    std::size_t port_ = 0;
+//    /// <summary>
+//    /// The numeric port
+//    /// </summary>
+//    std::size_t port_ = 0;
 
-    /// <summary>
-    /// True if this URI has a query section
-    /// </summary>
-    bool has_query_ = false;
+//    /// <summary>
+//    /// True if this URI has a query section
+//    /// </summary>
+//    bool has_query_ = false;
 
-    /// <summary>
-    /// The query section
-    /// </summary>
-    std::string query_;
+//    /// <summary>
+//    /// The query section
+//    /// </summary>
+//    std::string query_;
 
-    /// <summary>
-    /// True if this URI has a fragment section
-    /// </summary>
-    bool has_fragment_ = false;
+//    /// <summary>
+//    /// True if this URI has a fragment section
+//    /// </summary>
+//    bool has_fragment_ = false;
 
-    /// <summary>
-    /// The fragment section
-    /// </summary>
-    std::string fragment_;
+//    /// <summary>
+//    /// The fragment section
+//    /// </summary>
+//    std::string fragment_;
 
     /// <summary>
     /// The path section

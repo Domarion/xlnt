@@ -117,19 +117,19 @@ struct workbook_impl
             && extensions_ == other.extensions_;
     }
 
-    optional<std::size_t> active_sheet_index_;
+    std::optional<std::size_t> active_sheet_index_;
 
     std::list<worksheet_impl> worksheets_;
     std::unordered_map<rich_text, std::size_t, rich_text_hash> shared_strings_ids_;
     std::vector<rich_text> shared_strings_values_;
 
-    optional<stylesheet> stylesheet_;
+    std::optional<stylesheet> stylesheet_;
 
     calendar base_date_;
-    optional<std::string> title_;
+    std::optional<std::string> title_;
 
     manifest manifest_;
-    optional<theme> theme_;
+    std::optional<theme> theme_;
     std::unordered_map<std::string, std::vector<std::uint8_t>> images_;
     std::unordered_map<std::string, std::vector<std::uint8_t>> binaries_;
 
@@ -140,8 +140,8 @@ struct workbook_impl
     std::unordered_map<std::string, std::string> sheet_title_rel_id_map_;
     std::vector<bool> sheet_hidden_;
 
-    optional<workbook_view> view_;
-    optional<std::string> code_name_;
+    std::optional<workbook_view> view_;
+    std::optional<std::string> code_name_;
 
     struct file_version_t
     {
@@ -163,11 +163,11 @@ struct workbook_impl
         }
     };
 
-    optional<file_version_t> file_version_;
-    optional<calculation_properties> calculation_properties_;
-    optional<std::string> abs_path_;
-    optional<std::size_t> arch_id_flags_;
-    optional<ext_list> extensions_;
+    std::optional<file_version_t> file_version_;
+    std::optional<calculation_properties> calculation_properties_;
+    std::optional<std::string> abs_path_;
+    std::optional<std::size_t> arch_id_flags_;
+    std::optional<ext_list> extensions_;
 };
 
 } // namespace detail

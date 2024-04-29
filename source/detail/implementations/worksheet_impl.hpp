@@ -134,18 +134,18 @@ struct worksheet_impl
 
     std::unordered_map<cell_reference, cell_impl> cell_map_;
 
-    optional<page_setup> page_setup_;
-    optional<range_reference> auto_filter_;
-    optional<page_margins> page_margins_;
+    std::optional<page_setup> page_setup_;
+    std::optional<range_reference> auto_filter_;
+    std::optional<page_margins> page_margins_;
     std::vector<range_reference> merged_cells_;
     std::unordered_map<std::string, named_range> named_ranges_;
 
-    optional<phonetic_pr> phonetic_properties_;
-    optional<header_footer> header_footer_;
+    std::optional<phonetic_pr> phonetic_properties_;
+    std::optional<header_footer> header_footer_;
 
-    optional<std::pair<column_t, column_t>> print_title_cols_;
-    optional<std::pair<row_t, row_t>> print_title_rows_;
-    optional<range_reference> print_area_;
+    std::optional<std::pair<column_t, column_t>> print_title_cols_;
+    std::optional<std::pair<row_t, row_t>> print_title_rows_;
+    std::optional<range_reference> print_area_;
 
     std::vector<sheet_view> views_;
 
@@ -153,13 +153,13 @@ struct worksheet_impl
     std::vector<row_t> row_breaks_;
 
     std::unordered_map<std::string, comment> comments_;
-    optional<print_options> print_options_;
-    optional<sheet_pr> sheet_properties_;
+    std::optional<print_options> print_options_;
+    std::optional<sheet_pr> sheet_properties_;
 
-    optional<ext_list> extension_list_;
+    std::optional<ext_list> extension_list_;
 
     std::string drawing_rel_id_;
-    optional<drawing::spreadsheet_drawing> drawing_;
+    std::optional<drawing::spreadsheet_drawing> drawing_;
 };
 
 } // namespace detail

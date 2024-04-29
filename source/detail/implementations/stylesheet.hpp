@@ -245,34 +245,34 @@ struct stylesheet
         {
             impl.id = new_id++;
             
-            if (impl.alignment_id.is_set())
+            if (impl.alignment_id.has_value())
             {
-                alignment_reference_counts[impl.alignment_id.get()]++;
+                alignment_reference_counts[impl.alignment_id.value()]++;
             }
             
-            if (impl.border_id.is_set())
+            if (impl.border_id.has_value())
             {
-                border_reference_counts[impl.border_id.get()]++;
+                border_reference_counts[impl.border_id.value()]++;
             }
             
-            if (impl.fill_id.is_set())
+            if (impl.fill_id.has_value())
             {
-                fill_reference_counts[impl.fill_id.get()]++;
+                fill_reference_counts[impl.fill_id.value()]++;
             }
             
-            if (impl.font_id.is_set())
+            if (impl.font_id.has_value())
             {
-                font_reference_counts[impl.font_id.get()]++;
+                font_reference_counts[impl.font_id.value()]++;
             }
             
-            if (impl.number_format_id.is_set())
+            if (impl.number_format_id.has_value())
             {
-                number_format_reference_counts[impl.number_format_id.get()]++;
+                number_format_reference_counts[impl.number_format_id.value()]++;
             }
             
-            if (impl.protection_id.is_set())
+            if (impl.protection_id.has_value())
             {
-                protection_reference_counts[impl.protection_id.get()]++;
+                protection_reference_counts[impl.protection_id.value()]++;
             }
         }
         
@@ -280,34 +280,34 @@ struct stylesheet
         {
             auto &impl = name_impl_pair.second;
             
-            if (impl.alignment_id.is_set())
+            if (impl.alignment_id.has_value())
             {
-                alignment_reference_counts[impl.alignment_id.get()]++;
+                alignment_reference_counts[impl.alignment_id.value()]++;
             }
             
-            if (impl.border_id.is_set())
+            if (impl.border_id.has_value())
             {
-                border_reference_counts[impl.border_id.get()]++;
+                border_reference_counts[impl.border_id.value()]++;
             }
             
-            if (impl.fill_id.is_set())
+            if (impl.fill_id.has_value())
             {
-                fill_reference_counts[impl.fill_id.get()]++;
+                fill_reference_counts[impl.fill_id.value()]++;
             }
             
-            if (impl.font_id.is_set())
+            if (impl.font_id.has_value())
             {
-                font_reference_counts[impl.font_id.get()]++;
+                font_reference_counts[impl.font_id.value()]++;
             }
             
-            if (impl.number_format_id.is_set())
+            if (impl.number_format_id.has_value())
             {
-                number_format_reference_counts[impl.number_format_id.get()]++;
+                number_format_reference_counts[impl.number_format_id.value()]++;
             }
             
-            if (impl.protection_id.is_set())
+            if (impl.protection_id.has_value())
             {
-                protection_reference_counts[impl.protection_id.get()]++;
+                protection_reference_counts[impl.protection_id.value()]++;
             }
         }
         
@@ -319,29 +319,29 @@ struct stylesheet
 
         for (auto &impl : format_impls)
         {
-            if (impl.alignment_id.is_set())
+            if (impl.alignment_id.has_value())
             {
-                impl.alignment_id = alignment_id_map[impl.alignment_id.get()];
+                impl.alignment_id = alignment_id_map[impl.alignment_id.value()];
             }
             
-            if (impl.border_id.is_set())
+            if (impl.border_id.has_value())
             {
-                impl.border_id = border_id_map[impl.border_id.get()];
+                impl.border_id = border_id_map[impl.border_id.value()];
             }
             
-            if (impl.fill_id.is_set())
+            if (impl.fill_id.has_value())
             {
-                impl.fill_id = fill_id_map[impl.fill_id.get()];
+                impl.fill_id = fill_id_map[impl.fill_id.value()];
             }
             
-            if (impl.font_id.is_set())
+            if (impl.font_id.has_value())
             {
-                impl.font_id = font_id_map[impl.font_id.get()];
+                impl.font_id = font_id_map[impl.font_id.value()];
             }
             
-            if (impl.protection_id.is_set())
+            if (impl.protection_id.has_value())
             {
-                impl.protection_id = protection_id_map[impl.protection_id.get()];
+                impl.protection_id = protection_id_map[impl.protection_id.value()];
             }
         }
 
@@ -349,29 +349,29 @@ struct stylesheet
         {
             auto &impl = name_impl.second;
 
-            if (impl.alignment_id.is_set())
+            if (impl.alignment_id.has_value())
             {
-                impl.alignment_id = alignment_id_map[impl.alignment_id.get()];
+                impl.alignment_id = alignment_id_map[impl.alignment_id.value()];
             }
             
-            if (impl.border_id.is_set())
+            if (impl.border_id.has_value())
             {
-                impl.border_id = border_id_map[impl.border_id.get()];
+                impl.border_id = border_id_map[impl.border_id.value()];
             }
             
-            if (impl.fill_id.is_set())
+            if (impl.fill_id.has_value())
             {
-                impl.fill_id = fill_id_map[impl.fill_id.get()];
+                impl.fill_id = fill_id_map[impl.fill_id.value()];
             }
             
-            if (impl.font_id.is_set())
+            if (impl.font_id.has_value())
             {
-                impl.font_id = font_id_map[impl.font_id.get()];
+                impl.font_id = font_id_map[impl.font_id.value()];
             }
             
-            if (impl.protection_id.is_set())
+            if (impl.protection_id.has_value())
             {
-                impl.protection_id = protection_id_map[impl.protection_id.get()];
+                impl.protection_id = protection_id_map[impl.protection_id.value()];
             }
         }
     }
@@ -418,7 +418,7 @@ struct stylesheet
         return find_or_create(new_format);
     }
 
-    format_impl *find_or_create_with(format_impl *pattern, const alignment &new_alignment, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const alignment &new_alignment, std::optional<bool> applied)
     {
         format_impl new_format = *pattern;
         new_format.alignment_id = find_or_add(alignments, new_alignment);
@@ -430,7 +430,7 @@ struct stylesheet
         return find_or_create(new_format);
     }
 
-    format_impl *find_or_create_with(format_impl *pattern, const border &new_border, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const border &new_border, std::optional<bool> applied)
     {
         format_impl new_format = *pattern;
         new_format.border_id = find_or_add(borders, new_border);
@@ -442,7 +442,7 @@ struct stylesheet
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const fill &new_fill, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const fill &new_fill, std::optional<bool> applied)
     {
         format_impl new_format = *pattern;
         new_format.fill_id = find_or_add(fills, new_fill);
@@ -454,7 +454,7 @@ struct stylesheet
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const font &new_font, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const font &new_font, std::optional<bool> applied)
     {
         format_impl new_format = *pattern;
         new_format.font_id = find_or_add(fonts, new_font);
@@ -466,7 +466,7 @@ struct stylesheet
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const number_format &new_number_format, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const number_format &new_number_format, std::optional<bool> applied)
     {
         format_impl new_format = *pattern;
         if (new_number_format.id() >= 164)
@@ -482,7 +482,7 @@ struct stylesheet
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const protection &new_protection, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const protection &new_protection, std::optional<bool> applied)
     {
         format_impl new_format = *pattern;
         new_format.protection_id = find_or_add(protections, new_protection);
@@ -560,7 +560,7 @@ struct stylesheet
     std::list<format_impl> format_impls;
     std::unordered_map<std::string, style_impl> style_impls;
     std::vector<std::string> style_names;
-    optional<std::string> default_slicer_style;
+    std::optional<std::string> default_slicer_style;
 
 	std::vector<alignment> alignments;
     std::vector<border> borders;

@@ -36,12 +36,12 @@ bool has_trailing_whitespace(const std::string &s)
 namespace xlnt {
 
 rich_text::rich_text(const std::string &plain_text)
-    : rich_text(rich_text_run{plain_text, optional<font>(), has_trailing_whitespace(plain_text)})
+    : rich_text(rich_text_run{plain_text, std::optional<font>(), has_trailing_whitespace(plain_text)})
 {
 }
 
 rich_text::rich_text(const std::string &plain_text, const class font &text_font)
-    : rich_text(rich_text_run{plain_text, optional<font>(text_font), has_trailing_whitespace(plain_text)})
+    : rich_text(rich_text_run{plain_text, std::optional<font>(text_font), has_trailing_whitespace(plain_text)})
 {
 }
 
@@ -68,7 +68,7 @@ void rich_text::clear()
 {
     runs_.clear();
     phonetic_runs_.clear();
-    phonetic_properties_.clear();
+    phonetic_properties_.reset();
 }
 
 void rich_text::plain_text(const std::string &s, bool preserve_space = false)
@@ -120,17 +120,17 @@ void rich_text::add_phonetic_run(const phonetic_run &r)
 
 bool rich_text::has_phonetic_properties() const
 {
-    return phonetic_properties_.is_set();
+    return phonetic_properties_.has_value();
 }
 
 const phonetic_pr &rich_text::phonetic_properties() const
 {
-    return phonetic_properties_.get();
+    return phonetic_properties_.value();
 }
 
 void rich_text::phonetic_properties(const phonetic_pr &phonetic_props)
 {
-    phonetic_properties_.set(phonetic_props);
+    phonetic_properties_.emplace(phonetic_props);
 }
 
 bool rich_text::operator==(const rich_text &rhs) const

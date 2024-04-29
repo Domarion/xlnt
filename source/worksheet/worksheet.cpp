@@ -126,17 +126,17 @@ std::vector<range_reference> worksheet::merged_ranges() const
 
 bool worksheet::has_page_margins() const
 {
-    return d_->page_margins_.is_set();
+    return d_->page_margins_.has_value();
 }
 
 bool worksheet::has_page_setup() const
 {
-    return d_->page_setup_.is_set();
+    return d_->page_setup_.has_value();
 }
 
 page_margins worksheet::page_margins() const
 {
-    return d_->page_margins_.get();
+    return d_->page_margins_.value();
 }
 
 void worksheet::page_margins(const class page_margins &margins)
@@ -161,17 +161,17 @@ void worksheet::auto_filter(const xlnt::range &range)
 
 range_reference worksheet::auto_filter() const
 {
-    return d_->auto_filter_.get();
+    return d_->auto_filter_.value();
 }
 
 bool worksheet::has_auto_filter() const
 {
-    return d_->auto_filter_.is_set();
+    return d_->auto_filter_.has_value();
 }
 
 void worksheet::clear_auto_filter()
 {
-    d_->auto_filter_.clear();
+    d_->auto_filter_.reset();
 }
 
 void worksheet::page_setup(const struct page_setup &setup)
@@ -186,7 +186,7 @@ page_setup worksheet::page_setup() const
         throw invalid_attribute();
     }
 
-    return d_->page_setup_.get();
+    return d_->page_setup_.value();
 }
 
 workbook &worksheet::workbook()
@@ -271,7 +271,7 @@ cell_reference worksheet::frozen_panes() const
         throw xlnt::invalid_attribute();
     }
 
-    return d_->views_.front().pane().top_left_cell.get();
+    return d_->views_.front().pane().top_left_cell.value();
 }
 
 void worksheet::freeze_panes(xlnt::cell top_left_cell)
@@ -1047,7 +1047,7 @@ void worksheet::reserve(std::size_t n)
 
 class header_footer worksheet::header_footer() const
 {
-    return d_->header_footer_.get();
+    return d_->header_footer_.value();
 }
 
 cell_reference worksheet::point_pos(int left, int top) const
@@ -1151,7 +1151,7 @@ void worksheet::print_title_rows(row_t start, row_t end)
     d_->print_title_rows_ = std::make_pair(start, end);
 }
 
-optional<std::pair<row_t, row_t>> worksheet::print_title_rows() const
+std::optional<std::pair<row_t, row_t>> worksheet::print_title_rows() const
 {
     return d_->print_title_rows_;
 }
@@ -1161,20 +1161,20 @@ void worksheet::print_title_cols(column_t start, column_t end)
     d_->print_title_cols_ = std::make_pair(start, end);
 }
 
-optional<std::pair<column_t, column_t>> worksheet::print_title_cols() const
+std::optional<std::pair<column_t, column_t>> worksheet::print_title_cols() const
 {
     return d_->print_title_cols_;
 }
 
 bool worksheet::has_print_titles() const
 {
-    return d_->print_title_cols_.is_set() || d_->print_title_rows_.is_set();
+    return d_->print_title_cols_.has_value() || d_->print_title_rows_.has_value();
 }
 
 void worksheet::clear_print_titles()
 {
-    d_->print_title_rows_.clear();
-    d_->print_title_cols_.clear();
+    d_->print_title_rows_.reset();
+    d_->print_title_cols_.reset();
 }
 
 void worksheet::print_area(const std::string &print_area)
@@ -1184,17 +1184,17 @@ void worksheet::print_area(const std::string &print_area)
 
 range_reference worksheet::print_area() const
 {
-    return d_->print_area_.get();
+    return d_->print_area_.value();
 }
 
 bool worksheet::has_print_area() const
 {
-    return d_->print_area_.is_set();
+    return d_->print_area_.has_value();
 }
 
 void worksheet::clear_print_area()
 {
-    return d_->print_area_.clear();
+    return d_->print_area_.reset();
 }
 
 bool worksheet::has_view() const
@@ -1224,22 +1224,22 @@ void worksheet::register_calc_chain_in_manifest()
 
 bool worksheet::has_phonetic_properties() const
 {
-    return d_->phonetic_properties_.is_set();
+    return d_->phonetic_properties_.has_value();
 }
 
 const phonetic_pr &worksheet::phonetic_properties() const
 {
-    return d_->phonetic_properties_.get();
+    return d_->phonetic_properties_.value();
 }
 
 void worksheet::phonetic_properties(const phonetic_pr &phonetic_props)
 {
-    d_->phonetic_properties_.set(phonetic_props);
+    d_->phonetic_properties_.emplace(phonetic_props);
 }
 
 bool worksheet::has_header_footer() const
 {
-    return d_->header_footer_.is_set();
+    return d_->header_footer_.has_value();
 }
 
 void worksheet::header_footer(const class header_footer &hf)
@@ -1279,7 +1279,7 @@ double worksheet::column_width(column_t column) const
 
     if (has_column_properties(column))
     {
-        return column_properties(column).width.get();
+        return column_properties(column).width.value();
     }
     else
     {
@@ -1291,9 +1291,9 @@ double worksheet::row_height(row_t row) const
 {
     static const auto DefaultRowHeight = 15.0;
 
-    if (has_row_properties(row) && row_properties(row).height.is_set())
+    if (has_row_properties(row) && row_properties(row).height.has_value())
     {
-        return row_properties(row).height.get();
+        return row_properties(row).height.value();
     }
     else
     {
@@ -1313,7 +1313,7 @@ void worksheet::parent(xlnt::workbook &wb)
 
 conditional_format worksheet::conditional_format(const range_reference &ref, const condition &when)
 {
-    return workbook().d_->stylesheet_.get().add_conditional_format_rule(d_, ref, when);
+    return workbook().d_->stylesheet_.value().add_conditional_format_rule(d_, ref, when);
 }
 
 path worksheet::path() const
@@ -1344,7 +1344,7 @@ void worksheet::format_properties(const sheet_format_properties &properties)
 
 bool worksheet::has_drawing() const
 {
-    return d_->drawing_.is_set();
+    return d_->drawing_.has_value();
 }
 
 bool worksheet::is_empty() const

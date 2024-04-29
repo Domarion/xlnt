@@ -53,7 +53,7 @@ public:
         uri extension_ID_;
         std::string serialised_value_;
     };
-    ext_list() = default; // default ctor required by xlnt::optional
+    ext_list() = default; // default ctor required by std::optional
     explicit ext_list(xml::parser &parser, const std::string &ns);
     void serialize(xml::serializer &serialiser, const std::string &ns);
 

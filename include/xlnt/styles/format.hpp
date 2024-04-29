@@ -24,10 +24,10 @@
 #pragma once
 
 #include <cstddef>
+#include <optional>
 #include <string>
 
 #include <xlnt/xlnt_config.hpp>
-
 namespace xlnt {
 
 class alignment;
@@ -38,9 +38,6 @@ class font;
 class number_format;
 class protection;
 class style;
-
-template <typename T>
-class optional;
 
 namespace detail {
 
@@ -67,7 +64,7 @@ public:
     /// to true, determines whether the alignment should be enabled for cells using
     /// this format.
     /// </summary>
-    format alignment(const xlnt::alignment &new_alignment, xlnt::optional<bool> applied = {});
+    format alignment(const xlnt::alignment &new_alignment, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns true if the alignment of this format should be applied to cells
@@ -85,7 +82,7 @@ public:
     /// to true, determines whether the border should be enabled for cells using
     /// this format.
     /// </summary>
-    format border(const xlnt::border &new_border, xlnt::optional<bool> applied = {});
+    format border(const xlnt::border &new_border, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns true if the border set for this format should be applied to cells using the format.
@@ -102,7 +99,7 @@ public:
     /// to true, determines whether the border should be enabled for cells using
     /// this format.
     /// </summary>
-    format fill(const xlnt::fill &new_fill, xlnt::optional<bool> applied = {});
+    format fill(const xlnt::fill &new_fill, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns true if the fill set for this format should be applied to cells using the format.
@@ -119,7 +116,7 @@ public:
     /// to true, determines whether the font should be enabled for cells using
     /// this format.
     /// </summary>
-    format font(const xlnt::font &new_font, xlnt::optional<bool> applied = {});
+    format font(const xlnt::font &new_font, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns true if the font set for this format should be applied to cells using the format.
@@ -136,7 +133,7 @@ public:
     /// to true, determines whether the number format should be enabled for cells using
     /// this format.
     /// </summary>
-    format number_format(const xlnt::number_format &new_number_format, xlnt::optional<bool> applied = {});
+    format number_format(const xlnt::number_format &new_number_format, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns true if the number_format set for this format should be applied to cells using the format.
@@ -158,7 +155,7 @@ public:
     /// to true, determines whether the protection should be enabled for cells using
     /// this format.
     /// </summary>
-    format protection(const xlnt::protection &new_protection, xlnt::optional<bool> applied = {});
+    format protection(const xlnt::protection &new_protection, std::optional<bool> applied = {});
 
     /// <summary>
     /// Returns true if the pivot table interface is enabled for this format.

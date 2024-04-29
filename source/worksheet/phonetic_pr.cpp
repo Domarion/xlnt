@@ -67,11 +67,11 @@ void phonetic_pr::serialise(std::ostream &output_stream) const
     output_stream << '<' << Serialised_ID() << R"( fontID=")" << std::to_string(font_id_) << '"';
     if (has_type())
     {
-        output_stream << R"( type=")" << type_as_string(type_.get()) << '"';
+        output_stream << R"( type=")" << type_as_string(type_.value()) << '"';
     }
     if (has_alignment())
     {
-        output_stream << R"( alignment=")" << alignment_as_string(alignment_.get()) << '"';
+        output_stream << R"( alignment=")" << alignment_as_string(alignment_.value()) << '"';
     }
     output_stream << "/>";
 }
@@ -88,32 +88,32 @@ void phonetic_pr::font_id(font_id_t font)
 
 bool phonetic_pr::has_type() const
 {
-    return type_.is_set();
+    return type_.has_value();
 }
 
 phonetic_pr::phonetic_type phonetic_pr::type() const
 {
-    return type_.get();
+    return type_.value();
 }
 
 void phonetic_pr::type(phonetic_type type)
 {
-    type_.set(type);
+    type_.emplace(type);
 }
 
 bool phonetic_pr::has_alignment() const
 {
-    return alignment_.is_set();
+    return alignment_.has_value();
 }
 
 phonetic_pr::align phonetic_pr::alignment() const
 {
-    return alignment_.get();
+    return alignment_.value();
 }
 
 void phonetic_pr::alignment(align align)
 {
-    alignment_.set(align);
+    alignment_.emplace(align);
 }
 
 // serialisation
@@ -156,6 +156,11 @@ bool phonetic_pr::operator==(const phonetic_pr &rhs) const
     return font_id_ == rhs.font_id_
         && type_ == rhs.type_
         && alignment_ == rhs.alignment_;
+}
+
+bool phonetic_pr::operator!=(const phonetic_pr &rhs) const
+{
+    return !(*this == rhs);
 }
 
 } // namespace xlnt

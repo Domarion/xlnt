@@ -253,12 +253,12 @@ private:
     /// <summary>
     /// The name of the font
     /// </summary>
-    optional<std::string> name_;
+    std::optional<std::string> name_;
 
     /// <summary>
     /// size
     /// </summary>
-    optional<double> size_;
+    std::optional<double> size_;
 
     /// <summary>
     /// bold
@@ -303,22 +303,22 @@ private:
     /// <summary>
     /// color
     /// </summary>
-    optional<xlnt::color> color_;
+    std::optional<xlnt::color> color_;
 
     /// <summary>
     /// family
     /// </summary>
-    optional<std::size_t> family_;
+    std::optional<std::size_t> family_;
 
     /// <summary>
     /// charset
     /// </summary>
-    optional<std::size_t> charset_;
+    std::optional<std::size_t> charset_;
 
     /// <summary>
     /// scheme
     /// </summary>
-    optional<std::string> scheme_;
+    std::optional<std::string> scheme_;
 };
 
 } // namespace xlnt

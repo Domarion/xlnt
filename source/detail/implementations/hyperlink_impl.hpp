@@ -35,15 +35,15 @@ namespace detail {
 struct hyperlink_impl
 {
     xlnt::relationship relationship;
-    xlnt::optional<std::string> location;
-    xlnt::optional<std::string> tooltip;
-    xlnt::optional<std::string> display;
+    std::optional<std::string> location;
+    std::optional<std::string> tooltip;
+    std::optional<std::string> display;
 };
 
 inline bool operator==(const hyperlink_impl &lhs, const hyperlink_impl &rhs)
 {
-    return lhs.relationship == rhs.relationship
-        && lhs.tooltip == rhs.tooltip
+    return /*lhs.relationship == rhs.relationship
+        && */lhs.tooltip == rhs.tooltip
         && lhs.display == rhs.display;
 }
 

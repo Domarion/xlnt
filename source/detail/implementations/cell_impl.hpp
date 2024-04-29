@@ -24,6 +24,7 @@
 
 #include <cstddef>
 #include <string>
+#include <memory>
 
 #include <xlnt/cell/cell_type.hpp>
 #include <xlnt/cell/comment.hpp>
@@ -31,9 +32,9 @@
 #include <xlnt/cell/rich_text.hpp>
 #include <xlnt/packaging/relationship.hpp>
 #include <xlnt/utils/optional.hpp>
+#include <xlnt/utils/numeric.hpp>
 #include <detail/implementations/format_impl.hpp>
 #include <detail/implementations/hyperlink_impl.hpp>
-//#include "../numeric_utils.hpp"
 
 namespace xlnt {
 namespace detail {
@@ -43,10 +44,6 @@ struct worksheet_impl;
 struct cell_impl
 {
     cell_impl();
-    cell_impl(const cell_impl &other) = default;
-    cell_impl(cell_impl &&other) = default;
-    cell_impl &operator=(const cell_impl &other) = default;
-    cell_impl &operator=(cell_impl &&other) = default;
 
     cell_type type_;
 
@@ -58,17 +55,17 @@ struct cell_impl
     bool is_merged_;
     bool phonetics_visible_;
 
-    rich_text value_text_;
+    std::shared_ptr<rich_text> value_text_;
     double value_numeric_;
 
-    optional<std::string> formula_;
-    optional<hyperlink_impl> hyperlink_;
-    optional<format_impl *> format_;
-    optional<comment *> comment_;
+    std::optional<std::string> formula_;
+    std::shared_ptr<hyperlink_impl> hyperlink_;
+    format_impl* format_; // невладеющий
+    comment* comment_; // невладеющий
 
     bool is_garbage_collectible() const
     {
-        return !(type_ != cell_type::empty || is_merged_ || phonetics_visible_ || formula_.is_set() || format_.is_set() || hyperlink_.is_set());
+        return !(type_ != cell_type::empty || is_merged_ || phonetics_visible_ || formula_.has_value() || format_ != nullptr || hyperlink_);
     }
 };
 
@@ -84,8 +81,8 @@ inline bool operator==(const cell_impl &lhs, const cell_impl &rhs)
         && float_equals(lhs.value_numeric_, rhs.value_numeric_)
         && lhs.formula_ == rhs.formula_
         && lhs.hyperlink_ == rhs.hyperlink_
-        && (lhs.format_.is_set() == rhs.format_.is_set() && (!lhs.format_.is_set() || *lhs.format_.get() == *rhs.format_.get()))
-        && (lhs.comment_.is_set() == rhs.comment_.is_set() && (!lhs.comment_.is_set() || *lhs.comment_.get() == *rhs.comment_.get()));
+        && lhs.format_ == rhs.format_
+        && lhs.comment_ == rhs.comment_;
 }
 
 } // namespace detail

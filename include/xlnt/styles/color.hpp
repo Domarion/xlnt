@@ -339,7 +339,7 @@ private:
     /// <summary>
     /// The tint of this color
     /// </summary>
-    optional<double> tint_;
+    std::optional<double> tint_;
 
     /// <summary>
     /// Whether or not this is an auto color

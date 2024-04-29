@@ -64,7 +64,7 @@ public:
     /// </summary>
     bool has_active_cell() const
     {
-        return active_cell_.is_set();
+        return active_cell_.has_value();
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public:
     /// </summary>
     cell_reference active_cell() const
     {
-        return active_cell_.get();
+        return *active_cell_;
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public:
     /// </summary>
     bool has_sqref() const
     {
-        return sqref_.is_set();
+        return sqref_.has_value();
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public:
     /// </summary>
     range_reference sqref() const
     {
-        return sqref_.get();
+        return *sqref_;
     }
 
     /// <summary>
@@ -146,13 +146,13 @@ private:
     /// <summary>
     /// The last selected cell in the selection
     /// </summary>
-    optional<cell_reference> active_cell_;
+    std::optional<cell_reference> active_cell_;
 
     /// <summary>
     /// The last selected block in the selection
     /// contains active_cell_, normally == to active_cell_
     /// </summary>
-    optional<range_reference> sqref_;
+    std::optional<range_reference> sqref_;
 
     /// <summary>
     /// The corner of the worksheet that this selection extends to

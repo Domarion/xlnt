@@ -657,7 +657,7 @@ public:
     /// <summary>
     /// Get rows to repeat at top during printing.
     /// </summary>
-    optional<std::pair<row_t, row_t>> print_title_rows() const;
+    std::optional<std::pair<row_t, row_t>> print_title_rows() const;
 
     /// <summary>
     /// Sets columns to repeat at left during printing.
@@ -667,7 +667,7 @@ public:
     /// <summary>
     /// Get columns to repeat at left during printing.
     /// </summary>
-    optional<std::pair<column_t, column_t>> print_title_cols() const;
+    std::optional<std::pair<column_t, column_t>> print_title_cols() const;
 
     /// <summary>
     /// Returns true if the sheet has print titles defined.

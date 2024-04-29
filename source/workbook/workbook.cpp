@@ -455,7 +455,7 @@ workbook workbook::empty()
     wb.theme(xlnt::theme());
 
     wb.d_->stylesheet_ = detail::stylesheet();
-    auto &stylesheet = wb.d_->stylesheet_.get();
+    auto &stylesheet = wb.d_->stylesheet_.value();
     stylesheet.parent = &wb;
 
     auto default_border = border()
@@ -464,7 +464,7 @@ workbook workbook::empty()
                               .side(border_side::start, border::border_property())
                               .side(border_side::end, border::border_property())
                               .side(border_side::diagonal, border::border_property());
-    wb.d_->stylesheet_.get().borders.push_back(default_border);
+    wb.d_->stylesheet_.value().borders.push_back(default_border);
 
     auto default_fill = fill(pattern_fill()
                                  .type(pattern_fill_type::none));
@@ -537,9 +537,9 @@ workbook::workbook(detail::workbook_impl *impl)
 {
     if (impl != nullptr)
     {
-        if (d_->stylesheet_.is_set())
+        if (d_->stylesheet_.has_value())
         {
-            d_->stylesheet_.get().parent = this;
+            d_->stylesheet_.value().parent = this;
         }
     }
 }
@@ -741,12 +741,12 @@ bool workbook::sheet_hidden_by_index(std::size_t index) const
 
 worksheet workbook::active_sheet()
 {
-    return sheet_by_index(d_->active_sheet_index_.is_set() ? d_->active_sheet_index_.get() : 0);
+    return sheet_by_index(d_->active_sheet_index_.has_value() ? d_->active_sheet_index_.value() : 0);
 }
 void workbook::active_sheet(std::size_t index)
 {
-    d_->active_sheet_index_.set(index);
-    d_->view_.get().active_tab = index;
+    d_->active_sheet_index_.emplace(index);
+    d_->view_.value().active_tab = index;
 }
 
 bool workbook::has_named_range(const std::string &name) const
@@ -1186,7 +1186,7 @@ worksheet workbook::operator[](std::size_t index)
 void workbook::clear()
 {
     *d_ = detail::workbook_impl();
-    d_->stylesheet_.clear();
+    d_->stylesheet_.reset();
 }
 
 bool workbook::operator==(const workbook &rhs) const
@@ -1213,9 +1213,9 @@ void workbook::swap(workbook &right)
             ws.parent(left);
         }
 
-        if (left.d_->stylesheet_.is_set())
+        if (left.d_->stylesheet_.has_value())
         {
-            left.d_->stylesheet_.get().parent = &left;
+            left.d_->stylesheet_.value().parent = &left;
         }
     }
 
@@ -1226,9 +1226,9 @@ void workbook::swap(workbook &right)
             ws.parent(right);
         }
 
-        if (right.d_->stylesheet_.is_set())
+        if (right.d_->stylesheet_.has_value())
         {
-            right.d_->stylesheet_.get().parent = &right;
+            right.d_->stylesheet_.value().parent = &right;
         }
     }
 }
@@ -1236,7 +1236,7 @@ void workbook::swap(workbook &right)
 workbook &workbook::operator=(workbook other)
 {
     swap(other);
-    d_->stylesheet_.get().parent = this;
+    d_->stylesheet_.value().parent = this;
 
     return *this;
 }
@@ -1257,19 +1257,19 @@ workbook::workbook(const workbook &other)
         ws.parent(*this);
     }
 
-    d_->stylesheet_.get().parent = this;
+    d_->stylesheet_.value().parent = this;
 }
 
 workbook::~workbook() = default;
 
 bool workbook::has_theme() const
 {
-    return d_->theme_.is_set();
+    return d_->theme_.has_value();
 }
 
 const theme &workbook::theme() const
 {
-    return d_->theme_.get();
+    return d_->theme_.value();
 }
 
 void workbook::theme(const class theme &value)
@@ -1296,12 +1296,12 @@ std::vector<named_range> workbook::named_ranges() const
 format workbook::create_format(bool default_format)
 {
     register_workbook_part(relationship_type::stylesheet);
-    return d_->stylesheet_.get().create_format(default_format);
+    return d_->stylesheet_.value().create_format(default_format);
 }
 
 bool workbook::has_style(const std::string &name) const
 {
-    return d_->stylesheet_.get().has_style(name);
+    return d_->stylesheet_.value().has_style(name);
 }
 
 void workbook::clear_styles()
@@ -1311,27 +1311,27 @@ void workbook::clear_styles()
 
 void workbook::default_slicer_style(const std::string &value)
 {
-    d_->stylesheet_.get().default_slicer_style = value;
+    d_->stylesheet_.value().default_slicer_style = value;
 }
 
 std::string workbook::default_slicer_style() const
 {
-    return d_->stylesheet_.get().default_slicer_style.get();
+    return d_->stylesheet_.value().default_slicer_style.value();
 }
 
 void workbook::enable_known_fonts()
 {
-    d_->stylesheet_.get().known_fonts_enabled = true;
+    d_->stylesheet_.value().known_fonts_enabled = true;
 }
 
 void workbook::disable_known_fonts()
 {
-    d_->stylesheet_.get().known_fonts_enabled = false;
+    d_->stylesheet_.value().known_fonts_enabled = false;
 }
 
 bool workbook::known_fonts_enabled() const
 {
-    return d_->stylesheet_.get().known_fonts_enabled;
+    return d_->stylesheet_.value().known_fonts_enabled;
 }
 
 void workbook::clear_formats()
@@ -1358,12 +1358,12 @@ void workbook::apply_to_cells(std::function<void(cell)> f)
 
 format workbook::format(std::size_t format_index)
 {
-    return d_->stylesheet_.get().format(format_index);
+    return d_->stylesheet_.value().format(format_index);
 }
 
 const format workbook::format(std::size_t format_index) const
 {
-    return d_->stylesheet_.get().format(format_index);
+    return d_->stylesheet_.value().format(format_index);
 }
 
 manifest &workbook::manifest()
@@ -1455,22 +1455,22 @@ const std::unordered_map<std::string, std::vector<std::uint8_t>> &workbook::bina
 
 style workbook::create_style(const std::string &name)
 {
-    return d_->stylesheet_.get().create_style(name);
+    return d_->stylesheet_.value().create_style(name);
 }
 
 style workbook::create_builtin_style(const std::size_t builtin_id)
 {
-    return d_->stylesheet_.get().create_builtin_style(builtin_id);
+    return d_->stylesheet_.value().create_builtin_style(builtin_id);
 }
 
 style workbook::style(const std::string &name)
 {
-    return d_->stylesheet_.get().style(name);
+    return d_->stylesheet_.value().style(name);
 }
 
 const style workbook::style(const std::string &name) const
 {
-    return d_->stylesheet_.get().style(name);
+    return d_->stylesheet_.value().style(name);
 }
 
 calendar workbook::base_date() const
@@ -1485,12 +1485,12 @@ void workbook::base_date(calendar base_date)
 
 bool workbook::has_title() const
 {
-    return d_->title_.is_set();
+    return d_->title_.has_value();
 }
 
 std::string workbook::title() const
 {
-    return d_->title_.get();
+    return d_->title_.value();
 }
 
 void workbook::title(const std::string &title)
@@ -1510,17 +1510,17 @@ const detail::workbook_impl &workbook::impl() const
 
 bool workbook::has_view() const
 {
-    return d_->view_.is_set();
+    return d_->view_.has_value();
 }
 
 workbook_view workbook::view() const
 {
-    if (!d_->view_.is_set())
+    if (!d_->view_.has_value())
     {
         throw invalid_attribute();
     }
 
-    return d_->view_.get();
+    return d_->view_.value();
 }
 
 void workbook::view(const workbook_view &view)
@@ -1530,7 +1530,7 @@ void workbook::view(const workbook_view &view)
 
 bool workbook::has_code_name() const
 {
-    return d_->code_name_.is_set();
+    return d_->code_name_.has_value();
 }
 
 std::string workbook::code_name() const
@@ -1540,7 +1540,7 @@ std::string workbook::code_name() const
         throw invalid_attribute();
     }
 
-    return d_->code_name_.get();
+    return d_->code_name_.value();
 }
 
 void workbook::code_name(const std::string &code_name)
@@ -1550,37 +1550,37 @@ void workbook::code_name(const std::string &code_name)
 
 bool workbook::has_file_version() const
 {
-    return d_->file_version_.is_set();
+    return d_->file_version_.has_value();
 }
 
 std::string workbook::app_name() const
 {
-    return d_->file_version_.get().app_name;
+    return d_->file_version_.value().app_name;
 }
 
 std::size_t workbook::last_edited() const
 {
-    return d_->file_version_.get().last_edited;
+    return d_->file_version_.value().last_edited;
 }
 
 std::size_t workbook::lowest_edited() const
 {
-    return d_->file_version_.get().lowest_edited;
+    return d_->file_version_.value().lowest_edited;
 }
 
 std::size_t workbook::rup_build() const
 {
-    return d_->file_version_.get().rup_build;
+    return d_->file_version_.value().rup_build;
 }
 
 bool workbook::has_calculation_properties() const
 {
-    return d_->calculation_properties_.is_set();
+    return d_->calculation_properties_.has_value();
 }
 
 class calculation_properties workbook::calculation_properties() const
 {
-    return d_->calculation_properties_.get();
+    return d_->calculation_properties_.value();
 }
 
 void workbook::calculation_properties(const class calculation_properties &props)

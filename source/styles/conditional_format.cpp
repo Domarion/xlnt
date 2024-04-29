@@ -84,12 +84,12 @@ bool conditional_format::operator!=(const conditional_format &other) const
 
 bool conditional_format::has_border() const
 {
-    return d_->border_id.is_set();
+    return d_->border_id.has_value();
 }
 
 xlnt::border conditional_format::border() const
 {
-    return d_->parent->borders.at(d_->border_id.get());
+    return d_->parent->borders.at(d_->border_id.value());
 }
 
 conditional_format conditional_format::border(const xlnt::border &new_border)
@@ -100,12 +100,12 @@ conditional_format conditional_format::border(const xlnt::border &new_border)
 
 bool conditional_format::has_fill() const
 {
-    return d_->fill_id.is_set();
+    return d_->fill_id.has_value();
 }
 
 xlnt::fill conditional_format::fill() const
 {
-    return d_->parent->fills.at(d_->fill_id.get());
+    return d_->parent->fills.at(d_->fill_id.value());
 }
 
 conditional_format conditional_format::fill(const xlnt::fill &new_fill)
@@ -116,12 +116,12 @@ conditional_format conditional_format::fill(const xlnt::fill &new_fill)
 
 bool conditional_format::has_font() const
 {
-    return d_->font_id.is_set();
+    return d_->font_id.has_value();
 }
 
 xlnt::font conditional_format::font() const
 {
-    return d_->parent->fonts.at(d_->font_id.get());
+    return d_->parent->fonts.at(d_->font_id.value());
 }
 
 conditional_format conditional_format::font(const xlnt::font &new_font)

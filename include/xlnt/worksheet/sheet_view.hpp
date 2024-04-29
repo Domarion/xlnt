@@ -69,7 +69,7 @@ public:
     /// </summary>
     bool has_pane() const
     {
-        return pane_.is_set();
+        return pane_.has_value();
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public:
     /// </summary>
     struct pane &pane()
     {
-        return pane_.get();
+        return pane_.value();
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public:
     /// </summary>
     const struct pane &pane() const
     {
-        return pane_.get();
+        return pane_.value();
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public:
     /// </summary>
     void clear_pane()
     {
-        pane_.clear();
+        pane_.reset();
     }
 
     /// <summary>
@@ -197,7 +197,7 @@ public:
     /// </summary>
     bool has_top_left_cell() const
     {
-        return top_left_cell_.is_set();
+        return top_left_cell_.has_value();
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public:
     /// </summary>
     void top_left_cell(const cell_reference &ref)
     {
-        top_left_cell_.set(ref);
+        top_left_cell_.emplace(ref);
     }
 
     /// <summary>
@@ -213,7 +213,7 @@ public:
     /// </summary>
     cell_reference top_left_cell() const
     {
-        return top_left_cell_.get();
+        return top_left_cell_.value();
     }
 
     /// <summary>
@@ -254,12 +254,12 @@ private:
     /// <summary>
     /// The optional pane
     /// </summary>
-    optional<xlnt::pane> pane_;
+    std::optional<xlnt::pane> pane_;
 
     /// <summary>
     /// The top left cell
     /// </summary>
-    optional<cell_reference> top_left_cell_;
+    std::optional<cell_reference> top_left_cell_;
 
     /// <summary>
     /// The collection of selections
